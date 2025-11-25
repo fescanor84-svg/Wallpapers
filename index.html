@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض خلفيات الأنمي | Anime Wallpapers</title>
+    <style>
+        /* --- إعدادات أساسية --- */
+        :root {
+            --primary-color: #ff9f1c; /* برتقالي ناروتو */
+            --secondary-color: #2ec4b6; /* تيركواز */
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- الهيدر (العنوان) --- */
+        header {
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('63a0dbcb0ee6d8c5567186aa0d9a2a0d.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* تأثير البارالاكس */
+            position: relative;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #ccc;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        /* --- تأثيرات الحركة --- */
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px var(--primary-color); }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px var(--primary-color), 0 0 40px var(--primary-color); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- حاوية المعرض --- */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 30px;
+            background: var(--bg-card);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover, .btn.active {
+            background: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        /* --- شبكة الصور --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0; /* للأنيميشن عند التحميل */
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: 0.3s ease;
+        }
+
+        .card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* --- Lightbox (العرض الكامل) --- */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255, 159, 28, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Anime World</h1>
+        <p>استكشف أروع خلفيات عالم الشينوبي</p>
+    </header>
+
+    <div class="container">
+        <div class="filter-buttons">
+            <button class="btn active" onclick="filterImages('all')">الكل</button>
+            <button class="btn" onclick="filterImages('naruto')">ناروتو</button>
+            <button class="btn" onclick="filterImages('sasuke')">ساسكي</button>
+            <button class="btn" onclick="filterImages('kakashi')">كاكاشي</button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+            </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <span class="close-btn" onclick="closeLightbox(event)">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        // مصفوفة الصور بناءً على الملفات التي رفعتها
+        // يرجى التأكد من أن أسماء الملفات مطابقة تماماً
+        const wallpapers = [
+            { src: '63a0dbcb0ee6d8c5567186aa0d9a2a0d.jpg', category: 'naruto', title: 'ناروتو - السماء الزرقاء' },
+            { src: '311bc5d1529e242c7917648ff9d0b1c9.jpg', category: 'kakashi', title: 'كاكاشي - الجسر' },
+            { src: 'bc77e6be45b2e6f0accc2ba5ce9132b4.jpg', category: 'sasuke', title: 'ساسكي - وادي النهاية' },
+            { src: 'acad2996d033b1d0d648829f3b693f94.jpg', category: 'sasuke', title: 'ساسكي - المدينة' },
+            { src: '93c55fa47605017ae14a9f18967277b6.jpg', category: 'sasuke', title: 'ساسكي - الخريف' },
+            { src: '470c292702aa8d360304936e224f92fe.jpg', category: 'naruto', title: 'ناروتو - استرخاء تحت الشجرة' },
+            { src: '62345bb3c6c59bcd923d303f98b6293f.jpg', category: 'naruto', title: 'ناروتو - الغروب الملحمي' },
+            { src: '8db2be97d221dc808531638afed36f52.jpg', category: 'naruto', title: 'ناروتو - تأمل' }
+        ];
+
+        const galleryGrid = document.getElementById('galleryGrid');
+        const btns = document.querySelectorAll('.btn');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        // دالة لعرض الصور
+        function displayImages(filter = 'all') {
+            galleryGrid.innerHTML = '';
+            
+            wallpapers.forEach((img, index) => {
+                if (filter === 'all' || img.category === filter) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    // إضافة تأخير بسيط للأنيميشن لكل كرت
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    card.innerHTML = `
+                        <img src="${img.src}" alt="${img.title}" loading="lazy">
+                        <div class="card-overlay">
+                            <h3 class="card-title">${img.title}</h3>
+                        </div>
+                    `;
+                    
+                    // حدث النقر لفتح الصورة
+                    card.addEventListener('click', () => openLightbox(img.src));
+                    galleryGrid.appendChild(card);
+                }
+            });
+        }
+
+        // منطق التصفية (Filtering)
+        function filterImages(category) {
+            // تحديث حالة الأزرار
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            displayImages(category);
+        }
+
+        // وظائف الـ Lightbox
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox(e) {
+            if (e.target !== lightboxImg) {
+                lightbox.classList.remove('active');
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
+            }
+        }
+
+        // التشغيل الأولي
+        displayImages();
+
+    </script>
+</body>
+</html>
